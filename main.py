@@ -42,11 +42,15 @@ def main() -> int:
     for d1, d2 in zip(data, decrypted_data):
         assert d1 == d2
 
+    data_mb = list(splitbytes("マルチバイト文字列のサポート".encode(), 7))
+    data_encrypted = encode(data_mb, pub_key)
+    data_decrypted_list = decode(data_encrypted, priv_key)
+    data_decrypted_byteslist = list(map(lambda n: n.to_bytes(length=1, byteorder="little"), data_decrypted_list))
+    data_decrypted_bytes = functools.reduce(lambda x, y: x + y, data_decrypted_byteslist)
+    print(concatbytes(data_decrypted_bytes, 7).decode())
+
     encrypted = encrypt(0xFFFFFFFF.to_bytes(length=4, byteorder="little"), pub_key)
     decrypted = decrypt(encrypted, priv_key)
-    print(encrypted.hex(" "))
-    print(decrypted.hex(" "))
-
     return 0
 
 
@@ -119,6 +123,9 @@ def encode(data: List[int], key: RSAPublicKey) -> List[int]:
     Returns:
         List[int]: 結果
     """
+    if len(list(filter(lambda n: n >= key.n, data))) > 0:
+        raise ValueError("Invalid argument")
+
     return list(map(lambda x: pow(x, key.e, key.n), data))
 
 
