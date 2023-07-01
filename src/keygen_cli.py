@@ -46,20 +46,25 @@ def main() -> int:
     d_str = hex2str(private_key.d, n_bytelen)
     n_str = hex2str(public_key.n, n_bytelen)
 
-    # 出力先が指定されなかった場合はコンソールに出力する
+    # 出力先が指定されなかった場合はコンソールに出力して終了
     if dest is None:
         print(f"e=0x{e_str}, d=0x{d_str}, n=0x{n_str}")
         return 0
 
-    # 出力先を開く
+    # 出力先に書き込む
     try:
+        # 秘密鍵ファイル
         with open(dest, "w") as f:
-            f.write("\n".join([e_str, d_str, n_str]))
-        print("finished.")
+            f.write("\n".join([d_str, n_str]))
+
+        # 公開鍵ファイル (末尾に .pub を追加)
+        with open(f"{dest}.pub", "w") as f:
+            f.write("\n".join([e_str, n_str]))
     except Exception as e:
         print(f"Failed to export generate keys:{e}")
         return 1
 
+    print("finished.")
     return 0
 
 
