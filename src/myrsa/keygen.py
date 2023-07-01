@@ -7,13 +7,13 @@ import math
 import random
 from typing import Callable, Tuple
 
-from . import PrivateKey, PublicKey
+from . import RSAKey
 
 
 class RSAKeyGenerator:
 
     @staticmethod
-    def generate_key(p: int, q: int) -> Tuple[PublicKey, PrivateKey]:
+    def generate_key(p: int, q: int) -> Tuple[RSAKey, RSAKey]:
         """2つの素数p, qからRSA暗号鍵のペアを生成する
 
         Args:
@@ -21,7 +21,7 @@ class RSAKeyGenerator:
             q (int): 素数2
 
         Returns:
-            Tuple[RSAPublicKey, RSAPrivateKey]: 生成されたRSA暗号鍵
+            Tuple[RSAKey, RSAKey]: 生成されたRSA暗号鍵 (秘密鍵, 暗号鍵 のtuple)
 
         Raises:
             ValueError: 入力のいずれかが素数でない場合
@@ -56,7 +56,7 @@ class RSAKeyGenerator:
             d = d_candidates[0]
 
         # 完了 生成できた n, e, d の値をもとに鍵オブジェクトを作成して返す
-        return (PublicKey(n, d), PrivateKey(n, e))
+        return (RSAKey(n, d), RSAKey(n, e))
 
     @staticmethod
     def _is_prime(x: int) -> bool:

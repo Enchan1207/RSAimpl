@@ -33,33 +33,23 @@ def main() -> int:
         print(f"Failed to create RSA encrypt keys: {e}")
         return 1
 
-    # nの値を表現するのに必要なバイト数を計算する
-    n_bytelen = 1
-    key_n = public_key.n
-    while key_n > 255:
-        n_bytelen += 1
-        key_n >>= 8
-
-    # 鍵の持つ値を16進数文字列に変換
-    hex2str = lambda x, nbytes: format(x, f"0{nbytes*2}X")
-    e_str = hex2str(public_key.e, n_bytelen)
-    d_str = hex2str(private_key.d, n_bytelen)
-    n_str = hex2str(public_key.n, n_bytelen)
+    # 生成結果を表示
+    print(f"public key: {public_key}")
+    print(f"private key: {private_key}")
 
     # 出力先が指定されなかった場合はコンソールに出力して終了
     if dest is None:
-        print(f"e=0x{e_str}, d=0x{d_str}, n=0x{n_str}")
         return 0
 
     # 出力先に書き込む
     try:
-        # 秘密鍵ファイル
-        with open(dest, "w") as f:
-            f.write("\n".join([d_str, n_str]))
+        # 秘密鍵ファイル (末尾に .privkey を追加)
+        with open(f"{dest}.privkey", "w") as f:
+            f.write(public_key.serialize())
 
-        # 公開鍵ファイル (末尾に .pub を追加)
-        with open(f"{dest}.pub", "w") as f:
-            f.write("\n".join([e_str, n_str]))
+        # 公開鍵ファイル (末尾に .pubkey を追加)
+        with open(f"{dest}.pubkey", "w") as f:
+            f.write(private_key.serialize())
     except Exception as e:
         print(f"Failed to export generate keys:{e}")
         return 1

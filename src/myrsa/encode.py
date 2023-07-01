@@ -4,18 +4,18 @@
 import functools
 from typing import List, Union
 
-from . import PublicKey
+from . import RSAKey
 
 
 class RSAEncoder:
     """RSAエンコーダ
     """
 
-    def __init__(self, public_key: PublicKey) -> None:
+    def __init__(self, public_key: RSAKey) -> None:
         """公開鍵を渡してエンコーダを初期化
 
         Args:
-            public_key (PublicKey): 公開鍵
+            public_key (RSAKey): 公開鍵
         """
         self._public_key = public_key
 
@@ -67,7 +67,7 @@ class RSAEncoder:
             raise ValueError("Invalid argument")
 
         # dataの各データごと x^e mod n を計算し、一旦リストに起こす
-        encoded_data = [pow(x, self._public_key.e, self._public_key.n) for x in data]
+        encoded_data = [pow(x, self._public_key.exponent, self._public_key.modulo) for x in data]
 
         # 暗号化されたデータのビット長は、入力ではなく鍵のモジュロnによって決定される
         # したがって、鍵によっては1データが2byte以上の値に変換される可能性がある
@@ -76,7 +76,7 @@ class RSAEncoder:
 
         # nの値を表現するのに必要なバイト数を計算する
         nbytes_modulo = 1
-        key_n = self._public_key.n
+        key_n = self._public_key.modulo
         while key_n > 255:
             nbytes_modulo += 1
             key_n >>= 8
