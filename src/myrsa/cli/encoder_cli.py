@@ -7,8 +7,8 @@ import io
 import sys
 from typing import BinaryIO, List, Optional, TextIO
 
-from myrsa import RSAKey
-from myrsa.encode import RSAEncoder
+from ..core import RSAKey
+from ..core.encode import RSAEncoder
 
 
 def main() -> int:

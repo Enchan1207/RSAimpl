@@ -6,7 +6,7 @@ import sys
 import argparse
 from typing import Optional
 
-from myrsa.keygen import RSAKeyGenerator
+from ..core.keygen import RSAKeyGenerator
 
 
 def main() -> int:

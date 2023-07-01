@@ -3,12 +3,11 @@
 #
 
 import argparse
-import io
 import sys
-from typing import BinaryIO, List, Optional, TextIO
+from typing import BinaryIO, Optional, TextIO
 
-from myrsa import RSAKey
-from myrsa.decode import RSADecoder
+from ..core import RSAKey
+from ..core.decode import RSADecoder
 
 
 def main() -> int:
@@ -23,7 +22,6 @@ def main() -> int:
     parser.add_argument("--key_file", "-k", type=str, required=True, help="RSA key file")
     parser.add_argument("--input_file", "-i", help="output destination of decoded data")
     parser.add_argument("--output_file", "-o", help="output destination of decoded data")
-    parser.add_argument("data", type=str, nargs="*", help="data to encode")
     args = parser.parse_args()
 
     # 入出力を構成
@@ -101,7 +99,7 @@ def configure_output_source(args: argparse.Namespace) -> TextIO:
         RuntimeError: 出力ソースの構成に失敗した場合。
 
     Note:
-        出力は オプション output_file が指定されている場合はバイナリモードで開き、それを使用します。
+        出力は オプション output_file が指定されている場合はそれを開き使用します。
         オプションが渡されなかった場合は標準出力に書き出されます。
     """
 
