@@ -29,7 +29,7 @@ class RSAKeyGenerator:
 
         # p, qが素数であることを確認
         if not RSAKeyGenerator._is_prime(p) or not RSAKeyGenerator._is_prime(q):
-            raise ValueError("Invalid argument")
+            raise ValueError(f"p and q must be prime (passed: p={p}, q={q})")
 
         # n, Euler(n) を計算
         n: int = p * q
