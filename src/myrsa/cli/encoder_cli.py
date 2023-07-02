@@ -53,6 +53,8 @@ def main() -> int:
         # 改行を削除
         input_data = input_source.read().replace("\r", "").replace("\n", "")
         output_source.write(encoder.encode(input_data))
+
+    print("finished.")
     return 0
 
 

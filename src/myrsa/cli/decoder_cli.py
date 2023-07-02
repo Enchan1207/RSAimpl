@@ -52,6 +52,8 @@ def main() -> int:
 
         # デコーダが返すのはASCIIコードの配列なので、 chr() により変換してから出力
         output_source.write("".join([chr(n) for n in decoded_data]))
+
+    print("finished.")
     return 0
 
 
