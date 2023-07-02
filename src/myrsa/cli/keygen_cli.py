@@ -45,11 +45,11 @@ def main() -> int:
     try:
         # 秘密鍵ファイル (末尾に .privkey を追加)
         with open(f"{dest}.privkey", "w") as f:
-            f.write(public_key.serialize())
+            f.write(private_key.serialize())
 
         # 公開鍵ファイル (末尾に .pubkey を追加)
         with open(f"{dest}.pubkey", "w") as f:
-            f.write(private_key.serialize())
+            f.write(public_key.serialize())
     except Exception as e:
         print(f"Failed to export generate keys:{e}")
         return 1
