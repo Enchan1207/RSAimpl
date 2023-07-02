@@ -68,15 +68,15 @@ class RSAKeyGenerator:
         Returns:
             bool: 判定結果
         """
+        if x < 2:
+            return False
 
-        # 素数とは、1とその数以外で割り切れない数
-        # つまり、nに対して 2~n の範囲においてGCDを計算し、すべて1ならばその数は素数
-        # ただし、n = a * b の関係が成立するとき n = b * a も同時になり立つため、
-        # 計算する範囲は 2~√n でよい
+        if x == 2:
+            return True
 
-        # √xを下回る最大の整数を求め、2からその数までのrangeオブジェクトをつくる
+        # √xを下回る最大の整数を求め、初項3, 公差2の等差数列をつくる
         # floorではなくceilを使っているのは、rangeが第2引数-1までの値を返すため
-        prime_check_range = range(2, math.ceil(math.sqrt(x)))
+        prime_check_range = range(3, math.ceil(math.sqrt(x)), 2)
 
         # それぞれについてGCDを計算
         for n in prime_check_range:
